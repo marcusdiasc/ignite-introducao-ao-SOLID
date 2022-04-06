@@ -1,0 +1,315 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Atlas",
+        "description": "Essa é uma documentação sobre a Atlas API",
+        "version": "1.0.0",
+        "contact": {
+            "email": "john@doe.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+               "tags": ["users"],
+               "summary": "Cria um novo usuário",
+               "requestBody": {
+                  "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": {
+                                "name": "Rocketseat",
+                                "email": "oi@rocketseat.com.br"
+                            }
+                        }
+                    }
+                  }
+               },
+               "responses": {
+                   "201": {
+                       "description": "Operação realizada com sucesso",
+                       "content": {
+                           "application/json" : {
+                               "schema": {
+                                   "type": "object",
+                                   "properties": {
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "id": {
+                                            "type":"string",
+                                            "format": "uuid"
+                                        },
+                                        "name": {
+                                            "type":"string",
+                                            "example": "Rocketseat"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                   }
+                                  
+                               }
+                           }
+                       }
+                   },
+                   "400": {
+                       "description": "Email já está sendo utilizado",
+                       "content": {
+                           "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "error": {
+                                        "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "This email is already in use"
+                                }
+                           }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": ["users"],
+                "summary": "Retorna todos os usuários",
+                "description": "Somente usuário ```admin``` por acessar.",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "user_id",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "admin": {
+                                                "type": "boolean"
+                                            },
+                                            "id": {
+                                                "type":"string",
+                                                "format": "uuid"
+                                            },
+                                            "name": {
+                                                "type":"string",
+                                                "example": "Rocketseat"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "format": "email"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "user does not exists",
+                        "content": {
+                            "application/json": {
+                             "schema": {
+                                 "type": "object",
+                                 "properties": {
+                                     "error": {
+                                         "type": "string"
+                                         }
+                                     }
+                                 },
+                                 "example": {
+                                     "error": "user does not exists"
+                                 }
+                            }
+                         }
+                     }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["users"],
+                "summary": "Retorna um usuário específico",
+                "parameters": [ {
+                        "in": "path",
+                        "name": "user_id",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format":"uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "id": {
+                                            "type":"string",
+                                            "format": "uuid"
+                                        },
+                                        "name": {
+                                            "type":"string",
+                                            "example": "Rocketseat"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "user does not exists",
+                        "content": {
+                            "application/json": {
+                             "schema": {
+                                 "type": "object",
+                                 "properties": {
+                                     "error": {
+                                         "type": "string"
+                                         }
+                                     }
+                                 },
+                                 "example": {
+                                     "error": "user does not exists"
+                                 }
+                            }
+                         }
+                     }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["users"],
+                "summary": "Torna admin um usuário",
+                "parameters": [ {
+                        "in": "path",
+                        "name": "user_id",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format":"uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operação realizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "admin": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "id": {
+                                            "type":"string",
+                                            "format": "uuid"
+                                        },
+                                        "name": {
+                                            "type":"string",
+                                            "example": "Rocketseat"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "user does not exists",
+                        "content": {
+                            "application/json": {
+                             "schema": {
+                                 "type": "object",
+                                 "properties": {
+                                     "error": {
+                                         "type": "string"
+                                         }
+                                     }
+                                 },
+                                 "example": {
+                                     "error": "user does not exists"
+                                 }
+                            }
+                         }
+                     }
+                }
+            }
+        }
+    }
+}
